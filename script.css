@@ -65,15 +65,15 @@ button:hover {
     height: 30px;
 }
 
-#login {
+#login_shell {
     /* display: none; */
 }
 
-#register {
+#register_shell {
     display: none;
 }
 
-#welcome_info {
+#welcome_info_shell {
     display: none;
 }
 
