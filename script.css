@@ -1,12 +1,19 @@
 /*common*/
 h1 {
     border: 5px solid #B31312;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+h2{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 header,
 footer {
     text-align: center;
     color: #2B2A4C;
+
 }
 
 body {
@@ -82,7 +89,7 @@ button:hover {
     margin-left: auto;
     margin-right: auto;
     margin-top: 4%;
-    width: 300px;
+    width: 200px;
     height: 50px;
 }
 
@@ -102,8 +109,6 @@ button:hover {
     height: 80px;
     text-align: center;
     font-size: 40px;
-    position: relative;
-    bottom: 40px;
 }
 
 #room_name_word {
