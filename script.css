@@ -74,7 +74,9 @@ button:hover {
     height: 650px;
 }
 
-#room_list {}
+#room_list {
+    overflow-y: scroll;
+}
 
 .join_room_button {
     display: block;
