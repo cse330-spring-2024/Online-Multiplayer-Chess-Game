@@ -1,0 +1,203 @@
+/*common*/
+h1 {
+    border: 5px solid #B31312;
+}
+
+header,
+footer {
+    text-align: center;
+    color: #2B2A4C;
+}
+
+body {
+    background-color: #EEE2DE;
+}
+
+button {
+    color: #fffffe;
+    box-shadow: 2px 5px 5px #A87367;
+    background: linear-gradient(#F8A283, #6974b3);
+    border-color: #fffffe;
+    border-radius: 10px;
+    font-size: medium;
+}
+
+button:hover {
+    transform: scale(1.05);
+    transition: 0.15s;
+}
+
+/*user_info*/
+#user_info {
+    font-weight: 500;
+    font-size: large;
+    background-color: #B31312;
+    color: #fffffe;
+    height: 80px;
+}
+
+#login,
+#register,
+#chat_input,
+#welcome_info {
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.login_inputs,
+.login_buttons {
+    margin-left: 1%;
+    margin-right: 1%;
+    height: 30px;
+}
+
+#login {
+    /* display: none; */
+}
+
+#register {
+    display: none;
+}
+
+#welcome_info {
+    display: none;
+}
+
+/* room_section */
+#room_section {
+    background-color: #2B2A4C;
+    display: flex;
+    flex-direction: row;
+    height: 650px;
+}
+
+#room_list {}
+
+.join_room_button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+    width: 300px;
+    height: 50px;
+}
+
+/*room info*/
+#room_list,
+#play_room,
+#TicTacToe,
+#chat,
+#chat_contnet,
+#chat_input {
+    border: 1px solid white;
+    margin: 2px;
+}
+
+#room_name {
+    background-color: #EA906C;
+    height: 80px;
+    text-align: center;
+    font-size: 40px;
+    position: relative;
+    bottom: 40px;
+}
+
+#room_name_word {
+    color: #fffffe;
+    position: relative;
+    top: 10px;
+}
+
+/* room_list */
+#room_list {
+    flex: 1;
+}
+
+#play_room {
+    flex: 4;
+    display: flex;
+    flex-direction: row;
+}
+
+/* TicTacToe */
+#TicTacToe {
+    display: flex;
+    flex: 3;
+    align-items: center;
+    justify-content: center;
+}
+
+#game_board {
+    font-size: 100px;
+    font-weight: 900;
+    font-family: 'Courier New', Courier, monospace;
+    border: 5px solid white;
+    background-color: #fffffe;
+    width: 450px;
+    height: 450px;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    line-height: 50px;
+}
+
+#game_board div {
+    width: 150px;
+    height: 150px;
+    display: inline-block;
+}
+
+#game_board div:nth-child(odd) {
+    background-color: #7d8bb9;
+}
+
+#game_board div:nth-child(even) {
+    background-color: rgb(183, 186, 194);
+}
+
+.empty:hover {
+    transform: scale(0.9);
+    transition: 0.15s;
+}
+
+.x_piece,
+.o_piece {
+    position: relative;
+    bottom: 40px;
+}
+
+/*chat*/
+#chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat_contnet {
+    background-color: #EEE2DE;
+    margin: 5%;
+    flex: 6;
+    overflow-y: scroll;
+}
+
+#chat_input {
+    background-color: #2B2A4C;
+    flex: 1;
+}
+
+#chat_list li {
+    margin-top: 1%;
+}
+
+.chat_list_username,
+.chat_list_word {
+    margin: 0px;
+}
+
+.chat_list_username {
+    color: gray;
+    font-size: small;
+}

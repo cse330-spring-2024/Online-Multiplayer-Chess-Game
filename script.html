@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+
+    <title>TicTacToe Playground</title>
+
+    <link rel="stylesheet" href="script.css">
+
+
+<body>
+
+    <main>
+        <header>
+            <h1>TicTacToe Playground</h1>
+        </header>
+        <div id="main_page">
+            <div id="user_info">
+                <div id="login">
+                    <p>Welcome! Please Login</p>
+                    <label for="login_username" class="login_inputs">Username:</label>
+                    <input type="text" class="login_inputs" id="login_username" name="fname"
+                        placeholder="Type username...">
+                    <label for="login_password" class="login_inputs">Password:</label>
+                    <input type="text" class="login_inputs" id="login_password" name="lname"
+                        placeholder="Type password...">
+                    <button type="button" class="login_buttons" id="login_button">Login</button>
+                    <p>No account?</p>
+                    <button type="button" class="login_buttons" id="turn_register">Register!</button>
+                </div>
+                <div id="register">
+                    <p>Welcome! Please Register</p>
+                    <label for="register_username" class="login_inputs">Username:</label>
+                    <input type="text" class="login_inputs" id="register_username" name="fname"
+                        placeholder="Type username...">
+                    <label for="register_password" class="login_inputs">Password:</label>
+                    <input type="text" class="login_inputs" id="register_password" name="lname"
+                        placeholder="Type password...">
+                    <button type="button" class="login_buttons" id="register_button">Register</button>
+                    <p>Have an account?</p>
+                    <button type="button" class="login_buttons" id="turn_login">Login!</button>
+                </div>
+                <div id="welcome_info">
+                    <p>Welcome! User XXX. Let's join a room!</p>
+                </div>
+            </div>
+            <div id="room_name">
+                <p id="room_name_word"> Room 1</p>
+            </div>
+            <div id="room_section">
+                <div id="room_list">
+                    <button type="button" class="join_room_button" id="join_room1">Join Room 1</button>
+                </div>
+                <div id="play_room">
+                    <div id="TicTacToe">
+                        <div id="game_board">
+                            <div id="piece_1" class="x"><p class="x_piece">X</p></div>
+                            <div id="piece_2" class="o"><p class="o_piece">O</p></div>
+                            <div id="piece_3" class="empty"></div>
+                            <div id="piece_4" class="empty"></div>
+                            <div id="piece_5" class="empty"></div>
+                            <div id="piece_6" class="empty"></div>
+                            <div id="piece_7" class="empty"></div>
+                            <div id="piece_8" class="empty"></div>
+                            <div id="piece_9" class="empty"></div>
+                        </div>
+                    </div>
+                    <div id="chat">
+                        <div id="chat_contnet">
+                            <ul id="chat_list">
+                                <li>
+                                    <p class="chat_list_username">User1</p>
+                                    <p class="chat_list_word">wow</p>
+                                </li>
+                                <li>
+                                    <p class="chat_list_username">User1</p>
+                                    <p class="chat_list_word">wow!</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="chat_input">
+                            <input type="text" class="login_inputs" id="chat_input_content" name="fname"
+                                placeholder="Type chat message...">
+                            <button type="button" class="login_buttons" id="chat_input_submit">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <footer>
+            <h2>CSE 330 Creative Portion: Sicheng Yang, Lily Fu</h2>
+        </footer>
+    </main>
+</body>
