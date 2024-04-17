@@ -1,4 +1,7 @@
 /*common*/
+body{
+    font-family:'Times New Roman', Times, serif; 
+}
 h1 {
     border: 5px solid #B31312;
     margin-top: 5px;
