@@ -19,32 +19,38 @@
         </header>
         <div id="main_page">
             <div id="user_info">
-                <div id="login">
-                    <p>Welcome! Please Login</p>
-                    <label for="login_username" class="login_inputs">Username:</label>
-                    <input type="text" class="login_inputs" id="login_username" name="fname"
-                        placeholder="Type username...">
-                    <label for="login_password" class="login_inputs">Password:</label>
-                    <input type="text" class="login_inputs" id="login_password" name="lname"
-                        placeholder="Type password...">
-                    <button type="button" class="login_buttons" id="login_button">Login</button>
-                    <p>No account?</p>
-                    <button type="button" class="login_buttons" id="turn_register">Register!</button>
+                <div id="loginshell">
+                    <div id="login">
+                        <p>Welcome! Please Login</p>
+                        <label for="login_username" class="login_inputs">Username:</label>
+                        <input type="text" class="login_inputs" id="login_username" name="fname"
+                            placeholder="Type username...">
+                        <label for="login_password" class="login_inputs">Password:</label>
+                        <input type="text" class="login_inputs" id="login_password" name="lname"
+                            placeholder="Type password...">
+                        <button type="button" class="login_buttons" id="login_button">Login</button>
+                        <p>No account?</p>
+                        <button type="button" class="login_buttons" id="turn_register">Register!</button>
+                    </div>
                 </div>
-                <div id="register">
-                    <p>Welcome! Please Register</p>
-                    <label for="register_username" class="login_inputs">Username:</label>
-                    <input type="text" class="login_inputs" id="register_username" name="fname2"
-                        placeholder="Type username...">
-                    <label for="register_password" class="login_inputs">Password:</label>
-                    <input type="text" class="login_inputs" id="register_password" name="lname2"
-                        placeholder="Type password...">
-                    <button type="button" class="login_buttons" id="register_button">Register</button>
-                    <p>Have an account?</p>
-                    <button type="button" class="login_buttons" id="turn_login">Login!</button>
+                <div id="register_shell">
+                    <div id="register">
+                        <p>Welcome! Please Register</p>
+                        <label for="register_username" class="login_inputs">Username:</label>
+                        <input type="text" class="login_inputs" id="register_username" name="fname2"
+                            placeholder="Type username...">
+                        <label for="register_password" class="login_inputs">Password:</label>
+                        <input type="text" class="login_inputs" id="register_password" name="lname2"
+                            placeholder="Type password...">
+                        <button type="button" class="login_buttons" id="register_button">Register</button>
+                        <p>Have an account?</p>
+                        <button type="button" class="login_buttons" id="turn_login">Login!</button>
+                    </div>
                 </div>
-                <div id="welcome_info">
-                    <p>Welcome! User XXX. Let's join a room!</p>
+                <div id="welcome_info_shell">
+                    <div id="welcome_info">
+                        <p>Welcome! User XXX. Let's join a room!</p>
+                    </div>
                 </div>
             </div>
             <div id="room_name">

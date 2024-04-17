@@ -8,9 +8,13 @@ h2{
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
+#main_page{
+    display: flex;
+    flex-direction: column;
+}
 header,
 footer {
+    flex: 1;
     text-align: center;
     color: #2B2A4C;
 
@@ -36,11 +40,11 @@ button:hover {
 
 /*user_info*/
 #user_info {
+    flex:1;
     font-weight: 500;
     font-size: large;
     background-color: #B31312;
     color: #fffffe;
-    height: 80px;
 }
 
 #login,
@@ -58,7 +62,7 @@ button:hover {
 .login_buttons {
     margin-left: 1%;
     margin-right: 1%;
-    height: 30px;
+    height: 50px;
 }
 
 #login {
@@ -75,10 +79,10 @@ button:hover {
 
 /* room_section */
 #room_section {
+    flex:7;
     background-color: #2B2A4C;
     display: flex;
     flex-direction: row;
-    height: 650px;
 }
 #room_list {
     overflow-y: scroll;
