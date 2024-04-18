@@ -12,12 +12,33 @@ body{
     height: 100%;
 }
 
-header, footer{
+header,
+footer {
+    text-align: center;
+    color: #2B2A4C;
     flex: 0 1 auto;
 }
 
-#main_page{
-    flex: 1 1 auto;
-    display: flex;
+body{
+    font-family:'Times New Roman', Times, serif; 
 }
 
+h1 {
+    border: 5px solid #B31312;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+button {
+    color: #fffffe;
+    box-shadow: 2px 5px 5px #A87367;
+    background: linear-gradient(#F8A283, #6974b3);
+    border-color: #fffffe;
+    border-radius: 10px;
+    font-size: medium;
+}
+
+button:hover {
+    transform: scale(1.05);
+    transition: 0.15s;
+}

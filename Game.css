@@ -1,0 +1,17 @@
+#room_section {
+    flex:7;
+    background-color: #2B2A4C;
+    display: flex;
+    flex-direction: row;
+}
+
+/*room info*/
+#room_list,
+#play_room,
+#TicTacToe,
+#chat,
+#chat_contnet,
+#chat_input {
+    border: 1px solid white;
+    margin: 2px;
+}

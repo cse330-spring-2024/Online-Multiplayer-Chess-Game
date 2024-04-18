@@ -1,0 +1,47 @@
+/* TicTacToe */
+#TicTacToe {
+    display: flex;
+    flex: 3;
+    align-items: center;
+    justify-content: center;
+}
+
+#game_board {
+    font-family: 'Courier New', Courier, monospace;
+    border: 5px solid white;
+    background-color: #fffffe;
+    text-align: center;
+    line-height: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#game_board div {
+    width: 20vh;
+    height: 20vh;
+}
+
+.x_piece,
+.o_piece{
+    font-size: 16vh;
+    font-weight: bold;
+}
+
+#game_board div:nth-child(odd) {
+    background-color: #7d8bb9;
+}
+
+#game_board div:nth-child(even) {
+    background-color: rgb(183, 186, 194);
+}
+
+.empty:hover {
+    transform: scale(0.9);
+    transition: 0.15s;
+}
+
+#game_board > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

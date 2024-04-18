@@ -1,0 +1,12 @@
+#room_name {
+    background-color: #EA906C;
+    height: 80px;
+    text-align: center;
+    font-size: 40px;
+}
+
+#room_name_word {
+    color: #fffffe;
+    position: relative;
+    top: 10px;
+}

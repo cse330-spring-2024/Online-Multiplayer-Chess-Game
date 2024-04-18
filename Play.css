@@ -1,0 +1,10 @@
+#play_room {
+    flex: 4;
+    display: flex;
+    flex-direction: row;
+}
+
+
+#room_list {
+    overflow-y: scroll;
+}

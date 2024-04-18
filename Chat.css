@@ -1,0 +1,32 @@
+/*chat*/
+#chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat_contnet {
+    background-color: #EEE2DE;
+    margin: 5%;
+    flex: 6;
+    overflow-y: scroll;
+}
+
+#chat_input {
+    background-color: #2B2A4C;
+    flex: 1;
+}
+
+#chat_list li {
+    margin-top: 1%;
+}
+
+.chat_list_username,
+.chat_list_word {
+    margin: 0px;
+}
+
+.chat_list_username {
+    color: gray;
+    font-size: small;
+}

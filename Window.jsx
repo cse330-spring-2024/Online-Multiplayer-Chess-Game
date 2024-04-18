@@ -1,8 +1,14 @@
+import "./Window.css"
+import Info from "./Info.jsx"
+import Room from "./Room.jsx"
+import Game from "./Game.jsx"
 
 function Window(){
     return(
             <section id="main_page">
-                <p>1</p>
+                <Info />
+                <Room />
+                <Game />
             </section>
     );
 }
