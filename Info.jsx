@@ -3,7 +3,7 @@ import "./Info.css"
 function Info() {
     return (
         <>
-            <div id="user_info">
+            <section id="user_info">
                 <div id="login_shell">
                     <div id="login">
                         <p>Welcome! Please Login</p>
@@ -37,7 +37,7 @@ function Info() {
                         <p>Welcome! User XXX. Let's join a room!</p>
                     </div>
                 </div>
-            </div>
+            </section>
         </>
     );
 }
