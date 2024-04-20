@@ -4,6 +4,8 @@ ini_set('display_errors', true);
 error_reporting(E_ALL);
 
 header("Content-Type: application/json"); // Since we are sending a JSON response here (not an HTML document), set the MIME Type to application/json
+header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+header("Access-Control-Allow-Headers: X-Requested-With, content-type");
 
 //Because you are posting the data via fetch(), php has to retrieve it elsewhere.
 $json_str = file_get_contents('php://input');
