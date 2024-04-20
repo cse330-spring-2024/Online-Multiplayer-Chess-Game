@@ -1,7 +1,7 @@
 import "./Info.css"
 import { useRef, useEffect, useState } from "react";
 
-function Info(id) {
+function Info() {
     const [status, setStatus] = useState("login");
     const [user, setUser] = useState("");
 

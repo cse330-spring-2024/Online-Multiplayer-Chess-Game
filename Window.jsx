@@ -5,11 +5,9 @@ import Game from "./Game.jsx"
 import { useState } from "react"
 
 function Window(){
-    const [id, setID] = useState(null);
-
     return(
             <section id="main_page">
-                <Info id={id}/>
+                <Info/>
                 <Room />
                 <Game />
             </section>
