@@ -5,11 +5,13 @@ import Game from "./Game.jsx"
 import { useState } from "react"
 
 function Window(){
+    const [user, setUser] = useState("");
+    
     return(
             <section id="main_page">
-                <Info/>
-                <Room />
-                <Game />
+                <Info user={user} setUser={(data) => setUser(data)}/>
+                <Room user={user} setUser={(data) => setUser(data)}/>
+                <Game user={user} setUser={(data) => setUser(data)}/>
             </section>
     );
 }

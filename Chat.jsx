@@ -1,6 +1,12 @@
 import "./Chat.css"
 
-function Chat() {
+function Chat({ user, setUser }) {
+    const send = function () {
+        if (undefined === user) {
+            window.alert("Please Log in to Send Chat!");
+        }
+    }
+
     return (
         <>
             <div id="chat">
@@ -19,7 +25,7 @@ function Chat() {
                 <div id="chat_input">
                     <input type="text" className="login_inputs" id="chat_input_content" name="fname3"
                         placeholder="Type chat message..." />
-                    <button type="button" className="login_buttons" id="chat_input_submit">Send</button>
+                    <button type="button" className="login_buttons" id="chat_input_submit" onClick={send}>Send</button>
                 </div>
             </div>
         </>

@@ -2,12 +2,12 @@ import "./Game.css"
 import List from "./List.jsx"
 import Play from "./Play.jsx"
 
-function Game() {
+function Game({user, setUser}) {
     return (
         <>
             <section id="room_section">
                 <List />
-                <Play />
+                <Play user={user} setUser={(data) => setUser(data)}/>
             </section>
         </>
     );

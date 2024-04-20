@@ -1,9 +1,8 @@
 import "./Info.css"
 import { useRef, useEffect, useState } from "react";
 
-function Info() {
+function Info({user, setUser}) {
     const [status, setStatus] = useState("login");
-    const [user, setUser] = useState("");
 
     const register = function () {
         const username = document.getElementById("register_username").value; // Get the username from the form
@@ -65,11 +64,11 @@ function Info() {
 
     useEffect(
         () => {
-            if (status == "register") {
+            if (status === "register") {
                 document.getElementById("login_shell").style.display = "none";
                 document.getElementById("register_shell").style.display = "initial";
                 document.getElementById("welcome_info_shell").style.display = "none";
-            } else if(status == "login") {
+            } else if(status === "login") {
                 document.getElementById("login_shell").style.display = "initial";
                 document.getElementById("register_shell").style.display = "none";
                 document.getElementById("welcome_info_shell").style.display = "none";
