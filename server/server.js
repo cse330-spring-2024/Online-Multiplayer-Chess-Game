@@ -1,10 +1,20 @@
-const io = new Server({
-  cors: {
-    origin: "*"
-  }
+// Require the packages we will use:
+const http = require("http");
+
+const port = 330;
+// Listen for HTTP connections.  This is essentially a miniature static file server that only serves our one file, client.html, on port 3456:
+const server = http.createServer();
+server.listen(port);
+
+// Import Socket.IO and pass our HTTP server object to it.
+const socketio = require("socket.io")(http, {
+    wsEngine: 'ws',
+    cors: "*"
 });
 
-io.listen(330);
+// Attach our Socket.IO server to our HTTP server to listen
+const io = socketio.listen(server);
+
 //Data types with example listed
 const room_list = new Map();
 //room_list: users in rooms
