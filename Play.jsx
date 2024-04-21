@@ -7,7 +7,7 @@ function Play_room({user, setUser}) {
         <>
             <div id="play_room">
                 <Gameboard />
-                <Chat user={user} setUser={(data) => setUser(data)}/>
+                <Chat user={user} setUser={(data) => setUser(data)} chat_message={chat_message} setChat_message={(data) => setChat_message(data)}/>
             </div>
         </>
     )

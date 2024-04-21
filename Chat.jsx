@@ -1,6 +1,6 @@
 import "./Chat.css"
 
-function Chat({ user, setUser }) {
+function Chat({ user, setUser, chat_message, setChat_message }) {
     const send = function () {
         if (undefined === user) {
             window.alert("Please Log in to Send Chat!");
@@ -12,14 +12,12 @@ function Chat({ user, setUser }) {
             <div id="chat">
                 <div id="chat_contnet">
                     <ul id="chat_list">
-                        <li>
-                            <p className="chat_list_username">User1</p>
-                            <p className="chat_list_word">wow</p>
-                        </li>
-                        <li>
-                            <p className="chat_list_username">User1</p>
-                            <p className="chat_list_word">wow!</p>
-                        </li>
+                        {chat_message.map((message) =>
+                            <>
+                                <p className="chat_list_username">{message[0]}</p>
+                                <p className="chat_list_word">{message[1]}</p>
+                            </>
+                        )}
                     </ul>
                 </div>
                 <div id="chat_input">

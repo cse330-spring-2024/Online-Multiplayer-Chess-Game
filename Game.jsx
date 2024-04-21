@@ -7,7 +7,7 @@ function Game({user, setUser}) {
         <>
             <section id="room_section">
                 <List />
-                <Play user={user} setUser={(data) => setUser(data)}/>
+                <Play user={user} setUser={(data) => setUser(data)} chat_message={chat_message} setChat_message={(data) => setChat_message(data)}/>
             </section>
         </>
     );
