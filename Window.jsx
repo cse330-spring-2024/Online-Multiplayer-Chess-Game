@@ -3,8 +3,9 @@ import Info from "./Info.jsx"
 import Room from "./Room.jsx"
 import Game from "./Game.jsx"
 import { useState } from "react"
-
-
+import {io} from 'socket.io-client'
+const URL = process.env.NODE_ENV === 'production' ? undefined :'';
+export const socket=io(URL);
 
 function Window() {
     socketio = io.connect();
