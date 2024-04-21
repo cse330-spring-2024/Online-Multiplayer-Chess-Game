@@ -86,6 +86,27 @@ io.on('connection', (socket) => {
             });
         }
     })
+
+    //Send message
+    //data: roomname, username, message_content
+    socket.on('message', function (data) {
+        if (room_list.has(data['roomname'])) {
+            //let users in the room know a user is here
+            for (let user of room_list.get(data['roomname'])) {
+                socketio.to(user).emit("message", {
+                    success: false,
+                    username: data['username'],
+                    message_conten: data['message_content']
+                });
+            }
+        }
+        else {
+            //Room DNE
+            io.sockets.to(data["username"]).emit("message", {
+                success: false
+            });
+        }
+    })
     //Leave room: (probabily not necessary)
     //data: roomname, username
     socket.on('leave', function (data) {
