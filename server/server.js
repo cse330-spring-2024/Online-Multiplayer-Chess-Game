@@ -2,7 +2,7 @@ const app = require('express')()
 const https = require('https').createServer(app)
 const io = require('socket.io')(http)
 const cors = require('cors')
-const PORT = 3457 //open a new port
+const PORT = 3456 
 app.use(cors())
 //Data types with example listed
 const room_list = new Map();
@@ -33,13 +33,23 @@ function calculate_win(game_board) {
     //No one wins
     return -1;
 }
-
+function map_to_array(map) {
+    let array = Array.from(map.keys());
+    return array;
+}
 io.on('connection', (socket) => {
+    //Get Room List
+    socket.on("get_room_list", function (data) {
+        io.sockets.to(data["username"]).emit("get_room_list", {
+            room_list:map_to_array(room_list)
+        });
+    })
+
     //Create room
     //data:roomname, username
     socket.on("create_room", function (data) {//data: room_id, room_name, user_id
         if (!room_list.has(data['roomname'])) {
-            console.log("User " + data + " create room " + data['roomname']);
+            console.log("User " + data['username'] + " create room " + data['roomname']);
             //Add roomname map to room_list
             room_list.set(data['roomname'], new Set());
             let history_len = player_history.length;
@@ -51,7 +61,7 @@ io.on('connection', (socket) => {
             io.sockets.emit("create_room", { success: true, username: data['username'], roomname: data["roomname"] });
         }
         else {
-            //Room DNE
+            //Room Exists
             io.sockets.to(data["username"]).emit("create_room", {
                 success: false
             });
@@ -59,9 +69,9 @@ io.on('connection', (socket) => {
     })
     //Join room
     //data: roomname, username
-    socket.on('join', function (data) {//data: room_id, room_name, user_id
+    socket.on('join_room', function (data) {//data: room_id, room_name, user_id
         if (room_list.has(data['roomname'])) {
-            //let users in the room know a user is here
+            //let users in the room know a user is here*
             for (let user of room_list.get(data['roomname'])) {
                 socketio.to(user).emit("a_user_join_room", {
                     username: data['username']
@@ -73,7 +83,7 @@ io.on('connection', (socket) => {
             //give the new user the current game board status
             io.sockets.to(data["username"]).emit("join_room", {
                 current_player_x: room_games.get(data['roomname'])[0], //"user1"
-                current_player_y: room_games.get(data['roomname'])[1], //"user2"
+                current_player_o: room_games.get(data['roomname'])[1], //"user2"
                 game_board: player_history[parseInt(room_games.get(data['roomname'])[2])],
                 game_result: room_games.get(data['roomname'])[3],
                 success: true
@@ -96,7 +106,7 @@ io.on('connection', (socket) => {
                 socketio.to(user).emit("message", {
                     success: false,
                     username: data['username'],
-                    message_conten: data['message_content']
+                    message_content: data['message_content']
                 });
             }
         }

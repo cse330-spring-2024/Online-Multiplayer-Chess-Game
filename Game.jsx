@@ -2,12 +2,17 @@ import "./Game.css"
 import List from "./List.jsx"
 import Play from "./Play.jsx"
 
-function Game({ user, setUser, chat_message, setChat_message, game_board, setGame_board, chat_room_name, setChat_room_name,room_list,setRoom_list }) {
+function Game({ user, setUser, chat_message, setChat_message, game_board, setGame_board, current_room_name, setCurrent_room_name,room_list,setRoom_list, game_status, setGame_status}) {
     return (
         <>
             <section id="room_section">
-                <List chat_room_name={chat_room_name} setChat_room_name={(data) => setChat_room_name(data)} room_list={room_list} setRoom_list={(data) => setRoom_list(data)}/>
-                <Play user={user} setUser={(data) => setUser(data)} chat_message={chat_message} setChat_message={(data) => setChat_message(data)} game_board={game_board} setGame_board={setGame_board} chat_room_name={chat_room_name} setChat_room_name={setChat_room_name} />
+                <List user={user} current_room_name={current_room_name} setCurrent_room_name={(data) => setCurrent_room_name(data)} room_list={room_list} setRoom_list={(data) => setRoom_list(data)}/>
+                <Play user={user} setUser={(data) => setUser(data)} 
+                chat_message={chat_message} setChat_message={(data) => setChat_message(data)}
+                current_room_name={current_room_name} setCurrent_room_name={(data) => setCurrent_room_name(data)} 
+                game_board={game_board} setGame_board={(data) => setGame_board(data)} 
+                room_list={room_list} setRoom_list={(data) => setRoom_list(data)}
+                game_status={game_status} setGame_status={(data) => setGame_status(data)}/>
             </section>
         </>
     );

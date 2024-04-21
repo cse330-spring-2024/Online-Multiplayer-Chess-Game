@@ -1,6 +1,6 @@
 import "./Chat.css"
 
-function Chat({ user, setUser, chat_message, setChat_message }) {
+function Chat({ user, setUser, chat_message, setChat_message,current_room_name, setCurrent_room_name,room_list,setRoom_list}) {
     const send = function () {
         if (undefined === user) {
             window.alert("Please Log in to Send Chat!");
