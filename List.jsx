@@ -1,6 +1,6 @@
 import "./List.css"
 
-function List(user, current_room_name, setCurrent_room_name, room_list, setRoom_list,userInputRoom,handleRoomContent) {
+function List(user, current_room_name, setCurrent_room_name, room_list, setRoom_list,userInputRoom,handleCreateRoom,handleRoomContent) {
     return (
         <>
             <div id="room_list">
@@ -9,7 +9,7 @@ function List(user, current_room_name, setCurrent_room_name, room_list, setRoom_
             <div id="create_room">
                 <input type="text" className="create_room_inputs" id="create_room_contnet" name="fname3" value={userInputRoom} onChange={handleRoomContent}
                     placeholder="Type room name..." />
-                <button type="button" className="create_room_buttons" id="create_room_submit" onClick={send}>Send</button>
+                <button type="button" className="create_room_buttons" id="create_room_submit" onClick={handleCreateRoom}>Send</button>
             </div>
         </>
     )

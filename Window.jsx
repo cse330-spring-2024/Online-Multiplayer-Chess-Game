@@ -5,10 +5,9 @@ import Game from "./Game.jsx"
 import { useState } from "react"
 import { io } from 'socket.io-client'
 const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://ec2-3-140-185-106.us-east-2.compute.amazonaws.com:330';
-const socket = io(URL);
 
 function Window() {
-    const socketio = socket.connect();
+    const socketio = io.connect(URL);
     const [user, setUser] = useState("");
     const [chat_message, setChat_message] = useState([]);
     const [current_room_name, setCurrent_room_name] = useState("");
@@ -159,6 +158,7 @@ function Window() {
                 handleContent={handleContent}
                 userInputRoom={userInputRoom}
                 handleCreateRoom={handleCreateRoom}
+                handleRoomContent={handleRoomContent}
             />
         </section>
     );

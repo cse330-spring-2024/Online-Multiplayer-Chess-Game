@@ -1,21 +1,23 @@
-// Require the packages we will use:
-const http = require("http");
 
-const port = 330;
-// Listen for HTTP connections.  This is essentially a miniature static file server that only serves our one file, client.html, on port 3456:
-const server = http.createServer();
-server.listen(port);
-
-// Import Socket.IO and pass our HTTP server object to it.
-const socketio = require("socket.io")(http, {
-    wsEngine: 'ws',
+var express = require('express');
+var router = express.Router();
+const http = require('http');
+const socketIO = require('socket.io');
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server, {
     cors: {
-        origin: "*"
-      }
-    });
+        origin: '*'
+    }
+});
+ 
+server.listen(330, () => {
+    console.log('Server is running on port 3000');
+});
 
-// Attach our Socket.IO server to our HTTP server to listen
-const io = socketio.listen(server);
+
+
+
 
 //Data types with example listed
 const room_list = new Map();
@@ -54,7 +56,7 @@ io.on('connection', (socket) => {
     //Get Room List
     socket.on("get_room_list", function (data) {
         io.sockets.to(data["username"]).emit("get_room_list", {
-            room_list:map_to_array(room_list)
+            room_list: map_to_array(room_list)
         });
     })
 
@@ -226,9 +228,9 @@ io.on('connection', (socket) => {
                             for (let user of room_list.get(data['roomname'])) {
                                 socketio.to(user).emit("place_a_piece", {
                                     username: data['username'],
-                                    over:1,
-                                    game_board:game_board,
-                                    winner:result,
+                                    over: 1,
+                                    game_board: game_board,
+                                    winner: result,
                                     success: true
                                 });
                             }
@@ -241,8 +243,8 @@ io.on('connection', (socket) => {
                                 for (let user of room_list.get(data['roomname'])) {
                                     socketio.to(user).emit("place_a_piece", {
                                         username: data['username'],
-                                        over:0,
-                                        game_board:game_board,
+                                        over: 0,
+                                        game_board: game_board,
                                         success: true
                                     });
                                 }
@@ -252,9 +254,9 @@ io.on('connection', (socket) => {
                                 for (let user of room_list.get(data['roomname'])) {
                                     socketio.to(user).emit("place_a_piece", {
                                         username: data['username'],
-                                        over:1,
-                                        game_board:game_board,
-                                        winner:result,
+                                        over: 1,
+                                        game_board: game_board,
+                                        winner: result,
                                         success: true
                                     });
                                 }
