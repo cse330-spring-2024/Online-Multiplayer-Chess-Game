@@ -13,10 +13,11 @@ function Window() {
     const [chat_message, setChat_message] = useState([]);
     const [current_room_name, setCurrent_room_name] = useState("");
     const [room_list, setRoom_list] = useState([]);
-    //chat
+    //User Input
+    const [userInputRoom, setUserInputRoom] = useState('');
     const [userInput, setUserInput] = useState('');
     //Game info
-    const [game_board, setGame_board] = useState([-1,-1,-1,-1,-1,-1,-1,-1,-1]);
+    const [game_board, setGame_board] = useState([-1, -1, -1, -1, -1, -1, -1, -1, -1]);
     const [game_status, setGame_status] = useState(0);
     const [players, setPlayers] = useState(["", ""]);
     const [turn, setTurn] = useState(0);
@@ -48,9 +49,18 @@ function Window() {
         }
     })
     //Create room
+    const handleRoomContent = (e) => {
+        setUserInputRoom(e.currentTarget.value)
+    }
     const handleCreateRoom = (e) => {
         e.preventDefault();
-        socketio.emit("create_room", { username: user});
+        if (userInputRoom.length == 0) {
+            alert("Empty room name, please type in a room name");
+        }
+        else {
+            alert("Creating room " + userInputRoom);
+            socketio.emit("create_room", { username: user, roomname: userInputRoom });
+        }
     }
     socketio.on("create_room", function (data) {
         if (data['success'] === true) {
@@ -147,6 +157,8 @@ function Window() {
                 turn={turn} setTurn={(data) => setTurn(data)}
                 userInput={userInput}
                 handleContent={handleContent}
+                userInputRoom={userInputRoom}
+                handleCreateRoom={handleCreateRoom}
             />
         </section>
     );

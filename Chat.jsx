@@ -7,7 +7,6 @@ function Chat({ user, setUser, chat_message, setChat_message, current_room_name,
         }
         else {
             let temp_chat_message = chat_message;
-            temp_chat_message.push([user,])
         }
     }
 

@@ -9,8 +9,10 @@ server.listen(port);
 // Import Socket.IO and pass our HTTP server object to it.
 const socketio = require("socket.io")(http, {
     wsEngine: 'ws',
-    cors: "*"
-});
+    cors: {
+        origin: "*"
+      }
+    });
 
 // Attach our Socket.IO server to our HTTP server to listen
 const io = socketio.listen(server);
