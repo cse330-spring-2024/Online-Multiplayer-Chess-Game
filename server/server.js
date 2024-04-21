@@ -2,9 +2,7 @@ const app = require('express')()
 const https = require('https').createServer(app)
 const io = require('socket.io')(http)
 const cors = require('cors')
-const PORT = 3456
-
-
+const PORT = 3457
 app.use(cors())
 //Data types with example listed
 const room_list = new Map();
