@@ -10,7 +10,7 @@ const io = socketIO(server, {
         origin: '*'
     }
 });
- 
+
 server.listen(330, () => {
     console.log('Server is running on port 3000');
 });
@@ -52,7 +52,13 @@ function map_to_array(map) {
     let array = Array.from(map.keys());
     return array;
 }
+
 io.on('connection', (socket) => {
+    //Login
+    socket.on("login", function (data) {
+        socket.join(data['username']);
+        console.log("User " + data["username"]+ " login");
+    })
     //Get Room List
     socket.on("get_room_list", function (data) {
         io.sockets.to(data["username"]).emit("get_room_list", {

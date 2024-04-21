@@ -144,7 +144,7 @@ function Window() {
     })
     return (
         <section id="main_page">
-            <Info user={user} setUser={(data) => setUser(data)} />
+            <Info user={user} setUser={(data) => setUser(data)} socketio={socketio}/>
             <Room user={user} setUser={(data) => setUser(data)} current_room_name={current_room_name} />
             <Game user={user} setUser={(data) => setUser(data)}
                 chat_message={chat_message} setChat_message={(data) => setChat_message(data)}

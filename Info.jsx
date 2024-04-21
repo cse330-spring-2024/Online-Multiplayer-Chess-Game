@@ -1,7 +1,7 @@
 import "./Info.css"
 import { useRef, useEffect, useState } from "react";
 
-function Info({user, setUser}) {
+function Info({user, setUser, socketio}) {
     const [status, setStatus] = useState("login");
 
     const register = function () {
@@ -55,6 +55,7 @@ function Info({user, setUser}) {
                     document.cookie = "token=" + data.token;
                     setStatus("welcome");
                     setUser(username);
+                    socketio.emit("login", {username: username});
                 } else {
                     window.alert(data.message);
                 }
