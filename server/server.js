@@ -1,6 +1,6 @@
 const io = new Server({
   cors: {
-    origin: "http://ec2-3-140-185-106.us-east-2.compute.amazonaws.com/"
+    origin: "*"
   }
 });
 
