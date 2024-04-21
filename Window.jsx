@@ -5,7 +5,7 @@ import Game from "./Game.jsx"
 import { useState } from "react"
 import { io } from 'socket.io-client'
 import { socket } from './socket';
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://ec2-3-140-185-106.us-east-2.compute.amazonaws.com/';
+const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://ec2-3-140-185-106.us-east-2.compute.amazonaws.com:330';
 const socket = io(URL);
 
 function Window() {
