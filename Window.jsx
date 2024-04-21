@@ -11,7 +11,7 @@ function Window() {
     const [user, setUser] = useState("");
     const [chat_message, setChat_message] = useState([]);
     const [current_room_name, setCurrent_room_name] = useState("");
-    const [room_list, setRoom_list] = useState([]);
+
     //User Input
     const [userInputRoom, setUserInputRoom] = useState('');
     const [userInput, setUserInput] = useState('');
@@ -26,9 +26,7 @@ function Window() {
         socketio.emit("get_room_list", { username: user });
 
     }
-    socketio.on("get_room_list", function (data) {
-        setRoom_list(data['room_list']);
-    })
+
     //Join Room
     const handleJoiniRoom = (e) => {
         e.preventDefault();
@@ -45,31 +43,6 @@ function Window() {
         }
         else {
             alert("Failed to entered room ");
-        }
-    })
-    //Create room
-    const handleRoomContent = (e) => {
-        setUserInputRoom(e.currentTarget.value)
-    }
-    const handleCreateRoom = (e) => {
-        e.preventDefault();
-        if (userInputRoom.length == 0) {
-            alert("Empty room name, please type in a room name");
-        }
-        else {
-            alert("Creating room " + userInputRoom);
-            socketio.emit("create_room", { username: user, roomname: userInputRoom });
-        }
-    }
-    socketio.on("create_room", function (data) {
-        if (data['success'] === true) {
-            let temp_room_list = room_list;
-            temp_room_list.push(data["roomname"]);
-            setRoom_list(temp_room_list);
-            alert("You create room ");
-        }
-        else {
-            alert("Failed to create room.");
         }
     })
     //Send Message
@@ -145,20 +118,19 @@ function Window() {
     return (
         <section id="main_page">
             <Info user={user} setUser={(data) => setUser(data)} socketio={socketio}/>
-            <Room user={user} setUser={(data) => setUser(data)} current_room_name={current_room_name} />
+            <Room user={user} setUser={(data) => setUser(data)} current_room_name={current_room_name}/>
             <Game user={user} setUser={(data) => setUser(data)}
                 chat_message={chat_message} setChat_message={(data) => setChat_message(data)}
                 current_room_name={current_room_name} setCurrent_room_name={(data) => setCurrent_room_name(data)}
                 game_board={game_board} setGame_board={(data) => setGame_board(data)}
-                room_list={room_list} setRoom_list={(data) => setRoom_list(data)}
                 game_status={game_status} setGame_status={(data) => setGame_status(data)}
                 players={players} setPlayers={(data) => setPlayers(data)}
                 turn={turn} setTurn={(data) => setTurn(data)}
                 userInput={userInput}
                 handleContent={handleContent}
                 userInputRoom={userInputRoom}
-                handleCreateRoom={handleCreateRoom}
-                handleRoomContent={handleRoomContent}
+                socketio={socketio}
+                setUserInputRoom={(data) => setUserInputRoom(data)}
             />
         </section>
     );

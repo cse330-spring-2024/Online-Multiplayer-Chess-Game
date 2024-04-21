@@ -1,5 +1,12 @@
 #room_list {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#create_room_submit{
+    margin: 10px;
 }
 
 .join_room_button {
