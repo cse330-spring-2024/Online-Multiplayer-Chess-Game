@@ -11,8 +11,29 @@ const room_list = new Map();
 const room_games = new Map();
 //room_games: players in rooms & the place where the game info is placed
 //room_games={"room_name":["user1", "user2","1","0"],'room_name":["user3", "user4","2","0"]} 
-//player_X username, player_Y username, index in player_X_history_x player_X_history_y,index in player_Y_history_x player_Y_history_y
-const player_history = [];//[[0,1,2],[2,1,3]];  player_position=0
+//player_X username, player_O username, index in player_history, whether the game is over
+const player_history = [];//[[0,1,2],[2,1,3]];  x:0, o:1
+function calculate_win(game_board) {
+    const combos = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+    for (let i = 0; i < combos.length; i++) {
+        const [a, b, c] = combos[i];
+        if ((game_board[a] != -1) && (game_board[a] === game_board[b]) && (game_board[a] === game_board[c])) {
+            return game_board[a];
+        }
+    }
+    //No one wins
+    return -1;
+}
+
 io.on('connection', (socket) => {
     //Create room
     //data:roomname, username
@@ -53,7 +74,7 @@ io.on('connection', (socket) => {
             io.sockets.to(data["username"]).emit("join_room", {
                 current_player_x: room_games.get(data['roomname'])[0], //"user1"
                 current_player_y: room_games.get(data['roomname'])[1], //"user2"
-                player_history: player_history[parseInt(room_games.get(data['roomname'])[2])],
+                game_board: player_history[parseInt(room_games.get(data['roomname'])[2])],
                 game_result: room_games.get(data['roomname'])[3],
                 success: true
             });
@@ -88,7 +109,7 @@ io.on('connection', (socket) => {
             let apply_player = "";
             //Apply for player x
             if (data["player_position"] = 0) {
-                apply_playet = "x";
+                apply_player = "x";
                 //check if player x's username is empty
                 if (room_games.get(data['roomname'])[0] === "" || room_games.get(data['roomname'])[0] === data['username']) {
                     available = true;
@@ -96,7 +117,7 @@ io.on('connection', (socket) => {
             }
             //Apply for player o
             else {
-                apply_playet = "o";
+                apply_player = "o";
                 //check if player o is empty
                 if (room_games.get(data['roomname'])[1] === "" || room_games.get(data['roomname'])[1] === data['username']) {
                     available = true;
@@ -136,22 +157,72 @@ io.on('connection', (socket) => {
                     //check if the current piece is empty
                     let history_index = parseInt(room_games.get(data['roomname'])[2]);
                     let game_board = player_history[history_index];
-                    if (game_board[(data['x'] - 1) + (data['y'] - 1) * 3] == -1 ) {
+                    if (game_board[(data['x'] - 1) + (data['y'] - 1) * 3] == -1) {
                         //x
-                        if(data['player_position']==0){
-                            game_board[(data['x'] - 1) + (data['y'] - 1) * 3]=1;
+                        if (data['player_position'] == 0) {
+                            game_board[(data['x'] - 1) + (data['y'] - 1) * 3] = 0;
                         }
                         //o
-                        else{
-                            game_board[(data['x'] - 1) + (data['y'] - 1) * 3]=0;
+                        else {
+                            game_board[(data['x'] - 1) + (data['y'] - 1) * 3] = 1;
                         }
-                        player_history[history_index]=game_board;
+                        player_history[history_index] = game_board;
                         //check if any player win
+                        let result = calculate_win(game_board);
+                        let count = 0;
+                        for (let i = 0; i < 9; i++) {
+                            if (game_board[i] != -1) {
+                                count++;
+                            }
+                        }
+                        //Game Over:Win
+                        if (result == 0 || result == 1) {
+                            //Let every one in the room know a player win and game over
+                            //Game over: draw: over=1, winner=0 for player x, winner=1 for player o
+                            for (let user of room_list.get(data['roomname'])) {
+                                socketio.to(user).emit("place_a_piece", {
+                                    username: data['username'],
+                                    over:1,
+                                    game_board:game_board,
+                                    winner:result,
+                                    success: true
+                                });
+                            }
+                            //Update the game status in room_games
+                            room_games.get(data['roomname'])[3] = 1;
+                        }
+                        else {
+                            //game unfinished: over=0
+                            if (count < 9) {
+                                for (let user of room_list.get(data['roomname'])) {
+                                    socketio.to(user).emit("place_a_piece", {
+                                        username: data['username'],
+                                        over:0,
+                                        game_board:game_board,
+                                        success: true
+                                    });
+                                }
+                            }
+                            //Game over: draw: over=1, winner=-1
+                            else {
+                                for (let user of room_list.get(data['roomname'])) {
+                                    socketio.to(user).emit("place_a_piece", {
+                                        username: data['username'],
+                                        over:1,
+                                        game_board:game_board,
+                                        winner:result,
+                                        success: true
+                                    });
+                                }
 
+                            }
+                            //Update the game status in room_games
+                            room_games.get(data['roomname'])[3] = 1;
+                        }
                     }
-                    //this place is not empty
+                    //This place is not empty
                     else {
-                        console.log("User " + data["username"] + "failed to place a piece: Place is not Empty ("+data['x']+" , "+data['y']+" )");
+                        console.log("User " + data["username"] + "failed to place a piece: Place is not Empty (" + data['x'] + " , " + data['y'] + " )");
                         socketio.to(data["username"]).emit("place_a_piece", {
                             success: false,
                             error_code: 0
