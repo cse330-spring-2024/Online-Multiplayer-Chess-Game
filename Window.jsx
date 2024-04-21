@@ -136,7 +136,9 @@ function Window() {
                 current_room_name={current_room_name} setCurrent_room_name={(data) => setCurrent_room_name(data)}
                 game_board={game_board} setGame_board={(data) => setGame_board(data)}
                 room_list={room_list} setRoom_list={(data) => setRoom_list(data)}
-                game_status={game_status} setGame_status={(data) => setGame_status(data)} />
+                game_status={game_status} setGame_status={(data) => setGame_status(data)} 
+                players={players} setPlayers={(data) => setPlayers(data)}
+                turn={turn} setTurn={(data) => setTurn(data)}/>
         </section>
     );
 }

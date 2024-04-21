@@ -1,6 +1,6 @@
 import "./Gameboard.css"
 
-function Gameboard(user, setUser, game_board, setGame_board, current_room_name, setCurrent_room_name, game_status, setGame_status ) {
+function Gameboard(user, setUser, game_board, setGame_board, current_room_name, setCurrent_room_name, game_status, setGame_status, players, setPlayers, turn, setTurn) {
     return (
         <div id="TicTacToe">
             <div id="game_board">
