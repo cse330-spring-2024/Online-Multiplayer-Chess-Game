@@ -2,7 +2,7 @@ import "./Game.css"
 import List from "./List.jsx"
 import Play from "./Play.jsx"
 
-function Game({ user, setUser, chat_message, setChat_message, game_board, setGame_board, current_room_name, setCurrent_room_name,room_list,setRoom_list, game_status, setGame_status, players,setPlayers,turn,setTurn,handleContent}) {
+function Game({ user, setUser, chat_message, setChat_message, game_board, setGame_board, current_room_name, setCurrent_room_name,room_list,setRoom_list, game_status, setGame_status, players,setPlayers,turn,setTurn,handleContent,userInput}) {
     return (
         <>
             <section id="room_section">

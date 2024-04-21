@@ -2,7 +2,7 @@ import "./Play.css"
 import Gameboard from "./Gameboard.jsx"
 import Chat from "./Chat.jsx"
 
-function Play_room({ user, setUser, chat_message, setChat_message, game_board, setGame_board, current_room_name, setCurrent_room_name, room_list, setRoom_list, game_status, setGame_status, players, setPlayers, turn, setTurn }) {
+function Play_room({ user, setUser, chat_message, setChat_message, game_board, setGame_board, current_room_name, setCurrent_room_name, room_list, setRoom_list, game_status, setGame_status, players, setPlayers, turn, setTurn,handleContent ,userInput}) {
     return (
         <>
             <div id="play_room">

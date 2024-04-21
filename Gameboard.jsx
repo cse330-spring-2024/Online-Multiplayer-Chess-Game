@@ -1,21 +1,25 @@
 import "./Gameboard.css"
 
 function Gameboard(user, setUser, game_board, setGame_board, current_room_name, setCurrent_room_name, game_status, setGame_status, players, setPlayers, turn, setTurn) {
-    let empty=<></>;
-    let x=<><p className="x_piece">X</p></>
-    let o=<><p className="o_piece">O</p></>
-    let piece_name=[];
-    let piece_items=[];
-    for(let i=0;i<9;i++){
-        if(game_board[i]==0){
+    let empty = <></>;
+    let x = <><p className="x_piece">X</p></>
+    let o = <><p className="o_piece">O</p></>
+    let piece_name = [];
+    let piece_items = [];
+    
+    for (let i = 0; i < 9; i++) {
+        if(game_board === undefined) {
+            piece_name.push("empty");
+            piece_items.push(empty);
+        }
+        else if (game_board[i] == 0) {
             piece_name.push("x");
             piece_items.push(x);
         }
-        else if(game_board[i]==1){
+        else if (game_board[i] == 1) {
             piece_name.push("o");
             piece_items.push(o);
-        }
-        else{
+        } else{
             piece_name.push("empty");
             piece_items.push(empty);
         }

@@ -4,12 +4,11 @@ import Room from "./Room.jsx"
 import Game from "./Game.jsx"
 import { useState } from "react"
 import { io } from 'socket.io-client'
-import { socket } from './socket';
 const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://ec2-3-140-185-106.us-east-2.compute.amazonaws.com:330';
 const socket = io(URL);
 
 function Window() {
-    socketio = socket.connect();
+    const socketio = socket.connect();
     const [user, setUser] = useState("");
     const [chat_message, setChat_message] = useState([]);
     const [current_room_name, setCurrent_room_name] = useState("");
@@ -17,14 +16,14 @@ function Window() {
     //chat
     const [userInput, setUserInput] = useState('');
     //Game info
-    const [game_board, setGame_board] = useState([]);
+    const [game_board, setGame_board] = useState([-1,-1,-1,-1,-1,-1,-1,-1,-1]);
     const [game_status, setGame_status] = useState(0);
     const [players, setPlayers] = useState(["", ""]);
-    const [turn, setTurn] = userState(0);
+    const [turn, setTurn] = useState(0);
     //Initialization:Get Room List
     const handleInitialization = (e) => {
         e.preventDefault();
-        socketio.emit("get_room_list", { username: username });
+        socketio.emit("get_room_list", { username: user });
 
     }
     socketio.on("get_room_list", function (data) {
@@ -33,10 +32,10 @@ function Window() {
     //Join Room
     const handleJoiniRoom = (e) => {
         e.preventDefault();
-        socketio.emit("join_room", { username: username, roomname: roomname });
+        socketio.emit("join_room", { username: user, roomname: current_room_name });
     }
     socketio.on("join_room", function (data) {
-        if (data['success'] == true) {
+        if (data['success'] === true) {
             setCurrent_room_name(data['roomname']);
             setPlayers([data['current_player_x'], data['current_player_o']]);
             setGame_board(data['game_board']);
@@ -49,12 +48,12 @@ function Window() {
         }
     })
     //Create room
-    const handleCreateRoom = (e, roomname) => {
+    const handleCreateRoom = (e) => {
         e.preventDefault();
-        socketio.emit("create_room", { username: username, roomname: roomname });
+        socketio.emit("create_room", { username: user});
     }
     socketio.on("create_room", function (data) {
-        if (data['success'] == true) {
+        if (data['success'] === true) {
             let temp_room_list = room_list;
             temp_room_list.push(data["roomname"]);
             setRoom_list(temp_room_list);
@@ -73,7 +72,7 @@ function Window() {
         socketio.emit("message", { username: user, roomname: current_room_name, message_content: userInput });
     }
     socketio.on("message", function (data) {
-        if (data['success'] == true) {
+        if (data['success'] === true) {
             let temp_chat_message = chat_message;
             temp_chat_message.push([data["username"], data["message_content"]]);
             setChat_message(temp_chat_message);
@@ -90,7 +89,7 @@ function Window() {
         socketio.emit("join_player", { username: username, roomname: roomname, player_position: player_position });
     }
     socketio.on("a_user_become_player", function (data) {
-        if (data['success'] == true) {
+        if (data['success'] === true) {
             let temp_players = players;
             temp_players[data["player_position"]] = data["username"];
             setPlayers(temp_players);
@@ -106,15 +105,15 @@ function Window() {
         socketio.emit("place_piece", { username: username, roomname: roomname, player_position: player_position, x: x, y: y });
     }
     socketio.on("place_piece", function (data) {
-        if (data['success'] == true) {
+        if (data['success'] === true) {
             setGame_board(data['game_board']);
             //Over
-            if (data['over'] == 1) {
+            if (data['over'] === 1) {
                 setGame_status(1);
-                if (data['winner'] == 0) {
+                if (data['winner'] === 0) {
                     alert("Player X " + data['username'] + "Win!");
                 }
-                else if (data['winner'] == 1) {
+                else if (data['winner'] === 1) {
                     alert("Player O " + data['username'] + "Win!");
                 }
             }
@@ -123,10 +122,10 @@ function Window() {
             }
         }
         else {
-            if (data['error_code'] == 0) {
+            if (data['error_code'] === 0) {
                 alert("failed to place a piece: Place is not Empty");
             }
-            else if (data['error_code'] == 1) {
+            else if (data['error_code'] === 1) {
                 alert("failed to place a piece: Game is over");
             }
             else {
