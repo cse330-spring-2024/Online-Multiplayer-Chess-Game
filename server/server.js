@@ -1,9 +1,10 @@
-const app = require('express')()
-const https = require('https').createServer(app)
-const io = require('socket.io')(http)
-const cors = require('cors')
-const PORT = 3456 
-app.use(cors())
+const io = new Server({
+  cors: {
+    origin: "http://ec2-3-140-185-106.us-east-2.compute.amazonaws.com/"
+  }
+});
+
+io.listen(330);
 //Data types with example listed
 const room_list = new Map();
 //room_list: users in rooms
@@ -279,11 +280,4 @@ io.on('connection', (socket) => {
             }
         }
     })
-})
-app.get('/', (req, res) => {
-    res.send("Server is up and running")
-})
-
-https.listen(PORT, () => {
-    console.log(`Listening to ${PORT}`);
 })

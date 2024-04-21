@@ -15,7 +15,9 @@ function Play_room({ user, setUser, chat_message, setChat_message, game_board, s
                 <Chat user={user} setUser={(data) => setUser(data)}
                     chat_message={chat_message} setChat_message={(data) => setChat_message(data)}
                     current_room_name={current_room_name} setCurrent_room_name={(data) => setCurrent_room_name(data)}
-                    room_list={room_list} setRoom_list={(data) => setRoom_list(data)} />
+                    room_list={room_list} setRoom_list={(data) => setRoom_list(data)} 
+                    handleContent={handleContent}
+                    userInput={userInput}/>
             </div>
         </>
     )

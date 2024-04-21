@@ -3,21 +3,24 @@ import Info from "./Info.jsx"
 import Room from "./Room.jsx"
 import Game from "./Game.jsx"
 import { useState } from "react"
-import {io} from 'socket.io-client'
-const URL = process.env.NODE_ENV === 'production' ? undefined :'';
-export const socket=io(URL);
+import { io } from 'socket.io-client'
+import { socket } from './socket';
+const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://ec2-3-140-185-106.us-east-2.compute.amazonaws.com/';
+const socket = io(URL);
 
 function Window() {
-    socketio = io.connect();
+    socketio = socket.connect();
     const [user, setUser] = useState("");
     const [chat_message, setChat_message] = useState([]);
     const [current_room_name, setCurrent_room_name] = useState("");
     const [room_list, setRoom_list] = useState([]);
+    //chat
+    const [userInput, setUserInput] = useState('');
     //Game info
     const [game_board, setGame_board] = useState([]);
     const [game_status, setGame_status] = useState(0);
     const [players, setPlayers] = useState(["", ""]);
-    const [turn,setTurn]=userState(0);
+    const [turn, setTurn] = userState(0);
     //Initialization:Get Room List
     const handleInitialization = (e) => {
         e.preventDefault();
@@ -62,9 +65,12 @@ function Window() {
         }
     })
     //Send Message
-    const handleSendMessage = (e, roomname, username, message) => {
+    const handleContent = (e) => {
+        setUserInput(e.currentTarget.value)
+    }
+    const handleSendMessage = (e) => {
         e.preventDefault();
-        socketio.emit("message", { username: username, roomname: roomname, message_content: message });
+        socketio.emit("message", { username: user, roomname: current_room_name, message_content: userInput });
     }
     socketio.on("message", function (data) {
         if (data['success'] == true) {
@@ -88,7 +94,7 @@ function Window() {
             let temp_players = players;
             temp_players[data["player_position"]] = data["username"];
             setPlayers(temp_players);
-            alert("User "+ data['username']+" becomes a player");
+            alert("User " + data['username'] + " becomes a player");
         }
         else {
             alert("Failed to apply for player.");
@@ -120,10 +126,10 @@ function Window() {
             if (data['error_code'] == 0) {
                 alert("failed to place a piece: Place is not Empty");
             }
-            else if(data['error_code'] == 1){
+            else if (data['error_code'] == 1) {
                 alert("failed to place a piece: Game is over");
             }
-            else{
+            else {
                 alert("failed to place a piece: Not current player");
             }
         }
@@ -137,9 +143,12 @@ function Window() {
                 current_room_name={current_room_name} setCurrent_room_name={(data) => setCurrent_room_name(data)}
                 game_board={game_board} setGame_board={(data) => setGame_board(data)}
                 room_list={room_list} setRoom_list={(data) => setRoom_list(data)}
-                game_status={game_status} setGame_status={(data) => setGame_status(data)} 
+                game_status={game_status} setGame_status={(data) => setGame_status(data)}
                 players={players} setPlayers={(data) => setPlayers(data)}
-                turn={turn} setTurn={(data) => setTurn(data)}/>
+                turn={turn} setTurn={(data) => setTurn(data)}
+                userInput={userInput}
+                handleContent={handleContent}
+            />
         </section>
     );
 }
