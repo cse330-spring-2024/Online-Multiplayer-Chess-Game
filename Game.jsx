@@ -43,21 +43,21 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
     const handleContent = (e) => {
         setUserInput(e.currentTarget.value)
     }
-    // const handleSendMessage = (e) => {
-    //     e.preventDefault();
-    //     socketio.emit("message", { username: user, roomname: current_room_name, message_content: userInput });
-    // }
-    // socketio.on("message", function (data) {
-    //     if (data['success'] === true) {
-    //         let temp_chat_message = chat_message;
-    //         temp_chat_message.push([data["username"], data["message_content"]]);
-    //         setChat_message(temp_chat_message);
-    //         alert("New Message");
-    //     }
-    //     else {
-    //         alert("Failed to send message.");
-    //     }
-    // })
+    const handleSendMessage = (e) => {
+        e.preventDefault();
+        socketio.emit("message", { username: user, roomname: current_room_name, message_content: userInput });
+    }
+    socketio.on("message", function (data) {
+        if (data['success'] === true) {
+            let temp_chat_message = chat_message;
+            temp_chat_message.push([data["username"], data["message_content"]]);
+            setChat_message(temp_chat_message);
+            alert("New Message");
+        }
+        else {
+            alert("Failed to send message.");
+        }
+    })
     // //Leave room: (probabily not necessary)
     // //Become Player
     // const handleBecomePlayer = (e, roomname, username, player_position) => {
@@ -151,8 +151,8 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
                     game_status={game_status} setGame_status={(data) => setGame_status(data)}
                     players={players} setPlayers={(data) => setPlayers(data)}
                     turn={turn} setTurn={(data) => setTurn(data)}
-                    handleContent={() => handleContent()}
-                    
+                    handleContent={handleContent}
+                    handleSendMessage={handleSendMessage}
                     userInput={userInput}
                 />
             </section>
