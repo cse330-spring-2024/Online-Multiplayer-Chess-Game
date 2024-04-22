@@ -1,6 +1,5 @@
 import "./List.css"
-import { io } from 'socket.io-client'
-import { useState } from "react"
+
 function List(userInputRoom, handleCreateRoom, handleContentRoom) {
     return (
         <>

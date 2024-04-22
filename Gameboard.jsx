@@ -12,11 +12,11 @@ function Gameboard(user, setUser, game_board, setGame_board, current_room_name, 
             piece_name.push("empty");
             piece_items.push(empty);
         }
-        else if (game_board[i] == 0) {
+        else if (game_board[i] === 0) {
             piece_name.push("x");
             piece_items.push(x);
         }
-        else if (game_board[i] == 1) {
+        else if (game_board[i] === 1) {
             piece_name.push("o");
             piece_items.push(o);
         } else{

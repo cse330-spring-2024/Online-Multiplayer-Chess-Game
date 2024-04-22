@@ -1,5 +1,5 @@
 import "./Info.css"
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 function Info({user, setUser, socketio}) {
     const [status, setStatus] = useState("login");

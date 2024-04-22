@@ -6,7 +6,7 @@ function Chat({ user, setUser, chat_message, setChat_message, current_room_name,
             window.alert("Please Log in to Send Chat!");
         }
         else {
-            let temp_chat_message = chat_message;
+            // let temp_chat_message = chat_message;
         }
     }
 
