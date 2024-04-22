@@ -18,7 +18,8 @@ server.listen(330, () => {
 
 
 
-
+//user list
+const user_list = new Set();
 //Data types with example listed
 const room_list = new Map();
 //room_list: users in rooms
@@ -57,7 +58,10 @@ io.on('connection', (socket) => {
     //Login
     socket.on("login", function (data) {
         socket.join(data['username']);
-        console.log("User " + data["username"]+ " login");
+        console.log("User " + data["username"] + " login");
+        if (!user_list.has(data['username'])) {
+            user_list.add(data['username']);
+        }
     })
     //Get Room List
     socket.on("get_room_list", function (data) {
@@ -74,12 +78,15 @@ io.on('connection', (socket) => {
             //Add roomname map to room_list
             room_list.set(data['roomname'], new Set());
             let history_len = player_history.length;
+            console.log(history_len);
             //Add array to room_games with key roomname
-            room_games.set(data['roomname'], ["", "", history_len.toString, "0"]);//No players currently
+            room_games.set(data['roomname'], ["", "", history_len.toString(), "0"]);//No players currently
             let empty_arr = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
             player_history.push(empty_arr);
             //Let all users know the room is creates
-            io.sockets.emit("create_room", { success: true, username: data['username'], roomname: data["roomname"] });
+            for (let user of user_list) {
+                io.sockets.to(user).emit("create_room", { success: true, username: data['username'], roomname: data["roomname"] });
+            }
         }
         else {
             //Room Exists
@@ -107,8 +114,15 @@ io.on('connection', (socket) => {
                 current_player_o: room_games.get(data['roomname'])[1], //"user2"
                 game_board: player_history[parseInt(room_games.get(data['roomname'])[2])],
                 game_result: room_games.get(data['roomname'])[3],
+                roomname:data['roomname'],
                 success: true
             });
+            console.log("current player x "+ room_games.get(data['roomname'])[0]);
+            console.log("current player o "+ room_games.get(data['roomname'])[1]);
+            console.log("Game board:");
+            console.log(parseInt(room_games.get(data['roomname'])[2]));
+            console.log(player_history[parseInt(room_games.get(data['roomname'])[2])]);
+            console.log("game result "+ room_games.get(data['roomname'])[3]);
         }
         else {
             //Room DNE

@@ -22,24 +22,25 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
 
     // }
 
-    // //Join Room
-    // const handleJoiniRoom = (e) => {
-    //     e.preventDefault();
-    //     socketio.emit("join_room", { username: user, roomname: current_room_name });
-    // }
-    // socketio.on("join_room", function (data) {
-    //     if (data['success'] === true) {
-    //         setCurrent_room_name(data['roomname']);
-    //         setPlayers([data['current_player_x'], data['current_player_o']]);
-    //         setGame_board(data['game_board']);
-    //         setGame_status(data['game_result']);
-    //         setChat_message([]);
-    //         alert("You entered room " + data['roomname']);
-    //     }
-    //     else {
-    //         alert("Failed to entered room ");
-    //     }
-    // })
+    //Join Room
+    const handleJoinRoom = (e) => {
+        e.preventDefault();
+        alert("Try to join room "+ e.currentTarget.id);
+        socketio.emit("join_room", { username: user, roomname: e.currentTarget.id });
+    }
+    socketio.on("join_room", function (data) {
+        if (data['success'] === true) {
+            setCurrent_room_name(data['roomname']);
+            setPlayers([data['current_player_x'], data['current_player_o']]);
+            setGame_board(data['game_board']);
+            setGame_status(data['game_result']);
+            setChat_message([]);
+            alert("You entered room " + data['roomname']);
+        }
+        else {
+            alert("Failed to entered room ");
+        }
+    })
     // //Send Message
     const handleContent = (e) => {
         setUserInput(e.currentTarget.value)
@@ -129,6 +130,7 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
             temp_room_list.push(data["roomname"]);
             setRoom_list(temp_room_list);
             alert("You create room ");
+            setUserInputRoom("");
         }
         else {
             alert("Failed to create room.");
@@ -141,6 +143,8 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
                 <List userInputRoom={userInputRoom}
                     handleCreateRoom={handleCreateRoom}
                     handleContentRoom={handleContentRoom}
+                    room_list={room_list}
+                    handleJoinRoom={handleJoinRoom}
                 />
                 <Play user={user} setUser={(data) => setUser(data)}
                     chat_message={chat_message} setChat_message={(data) => setChat_message(data)}
