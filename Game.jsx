@@ -2,7 +2,7 @@ import "./Game.css"
 import List from "./List.jsx"
 import Play from "./Play.jsx"
 import { useState } from "react"
-function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio }) {
+function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio,players,setPlayers,game_status,setGame_status }) {
     //Message
     const [chat_message, setChat_message] = useState([]);
     const [userInput, setUserInput] = useState('');
@@ -10,8 +10,6 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
     const [userInputRoom, setUserInputRoom] = useState('');
     //Game info
     const [game_board, setGame_board] = useState([-1, -1, -1, -1, -1, -1, -1, -1, -1]);
-    const [game_status, setGame_status] = useState(0);
-    const [players, setPlayers] = useState(["", ""]);
     const [turn, setTurn] = useState(0);
     const [room_list, setRoom_list] = useState([]);
 
