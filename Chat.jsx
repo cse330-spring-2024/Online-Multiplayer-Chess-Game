@@ -1,15 +1,6 @@
 import "./Chat.css"
 
-function Chat({ user, setUser, chat_message, setChat_message, current_room_name, setCurrent_room_name, room_list, setRoom_list,handleContent,userInput }) {
-    const send = function () {
-        if (undefined === user) {
-            window.alert("Please Log in to Send Chat!");
-        }
-        else {
-            // let temp_chat_message = chat_message;
-        }
-    }
-
+function Chat({chat_message,handleContent,userInput,handleSendMessage }) {
     return (
         <>
             <div id="chat">
@@ -26,7 +17,7 @@ function Chat({ user, setUser, chat_message, setChat_message, current_room_name,
                 <div id="chat_input">
                     <input type="text" className="login_inputs" id="chat_input_content" name="fname3" value={userInput} onChange={handleContent}
                         placeholder="Type chat message..." />
-                    <button type="button" className="login_buttons" id="chat_input_submit" onClick={send}>Send</button>
+                    <button type="button" className="login_buttons" id="chat_input_submit" onClick={handleSendMessage}>Send</button>
                 </div>
             </div>
         </>

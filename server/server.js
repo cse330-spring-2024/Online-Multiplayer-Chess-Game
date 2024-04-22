@@ -42,7 +42,7 @@ function calculate_win(game_board) {
     ];
     for (let i = 0; i < combos.length; i++) {
         const [a, b, c] = combos[i];
-        if ((game_board[a] != -1) && (game_board[a] === game_board[b]) && (game_board[a] === game_board[c])) {
+        if ((game_board[a] !== -1) && (game_board[a] === game_board[b]) && (game_board[a] === game_board[c])) {
             return game_board[a];
         }
     }
@@ -101,7 +101,7 @@ io.on('connection', (socket) => {
         if (room_list.has(data['roomname'])) {
             //let users in the room know a user is here*
             for (let user of room_list.get(data['roomname'])) {
-                socketio.to(user).emit("a_user_join_room", {
+                io.sockets.to(user).emit("a_user_join_room", {
                     username: data['username']
                 });
             }
@@ -114,15 +114,15 @@ io.on('connection', (socket) => {
                 current_player_o: room_games.get(data['roomname'])[1], //"user2"
                 game_board: player_history[parseInt(room_games.get(data['roomname'])[2])],
                 game_result: room_games.get(data['roomname'])[3],
-                roomname:data['roomname'],
+                roomname: data['roomname'],
                 success: true
             });
-            console.log("current player x "+ room_games.get(data['roomname'])[0]);
-            console.log("current player o "+ room_games.get(data['roomname'])[1]);
+            console.log("current player x " + room_games.get(data['roomname'])[0]);
+            console.log("current player o " + room_games.get(data['roomname'])[1]);
             console.log("Game board:");
             console.log(parseInt(room_games.get(data['roomname'])[2]));
             console.log(player_history[parseInt(room_games.get(data['roomname'])[2])]);
-            console.log("game result "+ room_games.get(data['roomname'])[3]);
+            console.log("game result " + room_games.get(data['roomname'])[3]);
         }
         else {
             //Room DNE
@@ -135,11 +135,13 @@ io.on('connection', (socket) => {
     //Send message
     //data: roomname, username, message_content
     socket.on('message', function (data) {
+        console.log(room_list);
+        console.log("Find room: " + data['roomname']);
         if (room_list.has(data['roomname'])) {
             //let users in the room know a user is here
             for (let user of room_list.get(data['roomname'])) {
-                socketio.to(user).emit("message", {
-                    success: false,
+                io.sockets.to(user).emit("message", {
+                    success: true,
                     username: data['username'],
                     message_content: data['message_content']
                 });
@@ -161,7 +163,7 @@ io.on('connection', (socket) => {
             room_list.get(data['roomname']).delete(data['username']);
             //let users in the room know a user is here
             for (let user of room_list.get(data['roomname'])) {
-                socketio.to(user).emit("a_user_leave_room", {
+                io.sockets.to(user).emit("a_user_leave_room", {
                     username: data['username']
                 });
             }
@@ -173,11 +175,13 @@ io.on('connection', (socket) => {
         if (room_list.has(data['roomname'])) {
             let available = false;
             let apply_player = "";
+            console.log(data["player_position"]);
+            console.log(room_games.get(data['roomname']));
             //Apply for player x
-            if (data["player_position"] = 0) {
+            if (data["player_position"] === 0) {
                 apply_player = "x";
                 //check if player x's username is empty
-                if (room_games.get(data['roomname'])[0] === "" || room_games.get(data['roomname'])[0] === data['username']) {
+                if ((room_games.get(data['roomname'])[0] === "" || room_games.get(data['roomname'])[0] === data['username']) && room_games.get(data['roomname'])[1] !== data['username']) {
                     available = true;
                 }
             }
@@ -185,7 +189,7 @@ io.on('connection', (socket) => {
             else {
                 apply_player = "o";
                 //check if player o is empty
-                if (room_games.get(data['roomname'])[1] === "" || room_games.get(data['roomname'])[1] === data['username']) {
+                if ((room_games.get(data['roomname'])[1] === "" || room_games.get(data['roomname'])[1] === data['username']) && room_games.get(data['roomname'])[0] !== data['username']) {
                     available = true;
                 }
             }
@@ -195,7 +199,7 @@ io.on('connection', (socket) => {
                 room_games.get(data['roomname'])[data["player_position"]] = data['username'];
                 //let users in the room know a user is here
                 for (let user of room_list.get(data['roomname'])) {
-                    socketio.to(user).emit("a_user_become_player", {
+                    io.sockets.to(user).emit("a_user_become_player", {
                         username: data['username'],
                         player_position: data['player_position'],
                         success: true
@@ -206,7 +210,7 @@ io.on('connection', (socket) => {
                 console.log("User " + data['username'] + " failed to become player " + apply_player);
                 console.log("Current " + apply_player + " is " + room_games.get(data['roomname'])[data["player_position"]]);
                 //Send the notice only to the user who are applying for this position           
-                socketio.to(data["username"]).emit("a_user_become_player", {
+                io.sockets.to(data["username"]).emit("a_user_become_player", {
                     success: false
                 });
             }
@@ -219,13 +223,15 @@ io.on('connection', (socket) => {
             //Check if the user is the player
             if (data["username"] === room_games.get(data['roomname'])[data['player_position']]) {
                 //check if the game is over
-                if (parseInt(room_games.get(data['roomname'])[3]) == 0) {
+                if (parseInt(room_games.get(data['roomname'])[3]) === 0) {
+                    console.log("Game is not over");
                     //check if the current piece is empty
                     let history_index = parseInt(room_games.get(data['roomname'])[2]);
                     let game_board = player_history[history_index];
-                    if (game_board[(data['x'] - 1) + (data['y'] - 1) * 3] == -1) {
+                    console.log("Player " + data["username"] + "Played a piece at: " + data['x'] + " , " + data['y']);
+                    if (game_board[(data['x'] - 1) + (data['y'] - 1) * 3] === -1) {
                         //x
-                        if (data['player_position'] == 0) {
+                        if (data['player_position'] === 0) {
                             game_board[(data['x'] - 1) + (data['y'] - 1) * 3] = 0;
                         }
                         //o
@@ -237,16 +243,16 @@ io.on('connection', (socket) => {
                         let result = calculate_win(game_board);
                         let count = 0;
                         for (let i = 0; i < 9; i++) {
-                            if (game_board[i] != -1) {
+                            if (game_board[i] !== -1) {
                                 count++;
                             }
                         }
                         //Game Over:Win
-                        if (result == 0 || result == 1) {
+                        if (result === 0 || result === 1 ) {
                             //Let every one in the room know a player win and game over
                             //Game over: draw: over=1, winner=0 for player x, winner=1 for player o
                             for (let user of room_list.get(data['roomname'])) {
-                                socketio.to(user).emit("place_a_piece", {
+                                io.sockets.to(user).emit("place_a_piece", {
                                     username: data['username'],
                                     over: 1,
                                     game_board: game_board,
@@ -256,12 +262,15 @@ io.on('connection', (socket) => {
                             }
                             //Update the game status in room_games
                             room_games.get(data['roomname'])[3] = 1;
+                            console.log("Game Over");
+                            //Update the game status in room_games
+                            room_games.get(data['roomname'])[3] = 1;
                         }
                         else {
                             //game unfinished: over=0
                             if (count < 9) {
                                 for (let user of room_list.get(data['roomname'])) {
-                                    socketio.to(user).emit("place_a_piece", {
+                                    io.sockets.to(user).emit("place_a_piece", {
                                         username: data['username'],
                                         over: 0,
                                         game_board: game_board,
@@ -272,7 +281,7 @@ io.on('connection', (socket) => {
                             //Game over: draw: over=1, winner=-1
                             else {
                                 for (let user of room_list.get(data['roomname'])) {
-                                    socketio.to(user).emit("place_a_piece", {
+                                    io.sockets.to(user).emit("place_a_piece", {
                                         username: data['username'],
                                         over: 1,
                                         game_board: game_board,
@@ -280,16 +289,16 @@ io.on('connection', (socket) => {
                                         success: true
                                     });
                                 }
-
+                                //Update the game status in room_games
+                                room_games.get(data['roomname'])[3] = 1;
                             }
-                            //Update the game status in room_games
-                            room_games.get(data['roomname'])[3] = 1;
+
                         }
                     }
                     //This place is not empty
                     else {
                         console.log("User " + data["username"] + "failed to place a piece: Place is not Empty (" + data['x'] + " , " + data['y'] + " )");
-                        socketio.to(data["username"]).emit("place_a_piece", {
+                        io.sockets.to(data["username"]).emit("place_a_piece", {
                             success: false,
                             error_code: 0
                         });
@@ -298,7 +307,7 @@ io.on('connection', (socket) => {
                 //game is over
                 else {
                     console.log("User " + data["username"] + "failed to place a piece: Game is over");
-                    socketio.to(data["username"]).emit("place_a_piece", {
+                    io.sockets.to(data["username"]).emit("place_a_piece", {
                         success: false,
                         error_code: 1
                     });
@@ -307,7 +316,7 @@ io.on('connection', (socket) => {
             //user is not a current player
             else {
                 console.log("User " + data["username"] + "failed to place a piece: Not current player");
-                socketio.to(data["username"]).emit("place_a_piece", {
+                io.sockets.to(data["username"]).emit("place_a_piece", {
                     success: false,
                     error_code: 2
                 });

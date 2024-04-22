@@ -1,6 +1,6 @@
 import "./Gameboard.css"
 
-function Gameboard(user, setUser, game_board, setGame_board, current_room_name, setCurrent_room_name, game_status, setGame_status, players, setPlayers, turn, setTurn) {
+function Gameboard({game_board, handleBecomePlayer,handlePlacePiece}) {
     let empty = <></>;
     let x = <><p className="x_piece">X</p></>
     let o = <><p className="o_piece">O</p></>
@@ -27,34 +27,36 @@ function Gameboard(user, setUser, game_board, setGame_board, current_room_name, 
     return (
         <div id="TicTacToe">
             <div id="game_board">
-                <div id="piece_1" className={piece_name[0]}>
+                <div id="piece_1_1" className={piece_name[0]} onClick={handlePlacePiece}>
                     {piece_items[0]}
                 </div>
-                <div id="piece_2" className={piece_name[1]}>
+                <div id="piece_1_2" className={piece_name[1]} onClick={handlePlacePiece}>
                     {piece_items[1]}
                 </div>
-                <div id="piece_3" className={piece_name[2]}>
+                <div id="piece_1_3" className={piece_name[2]} onClick={handlePlacePiece}>
                     {piece_items[2]}
                 </div>
-                <div id="piece_4" className={piece_name[3]}>
+                <div id="piece_2_1" className={piece_name[3]} onClick={handlePlacePiece}>
                     {piece_items[3]}
                 </div>
-                <div id="piece_5" className={piece_name[4]}>
+                <div id="piece_2_2" className={piece_name[4]} onClick={handlePlacePiece}>
                     {piece_items[4]}
                 </div>
-                <div id="piece_6" className={piece_name[5]}>
+                <div id="piece_2_3" className={piece_name[5]} onClick={handlePlacePiece}>
                     {piece_items[5]}
                 </div>
-                <div id="piece_7" className={piece_name[6]}>
+                <div id="piece_3_1" className={piece_name[6]} onClick={handlePlacePiece}>
                     {piece_items[6]}
                 </div>
-                <div id="piece_8" className={piece_name[7]}>
+                <div id="piece_3_2" className={piece_name[7]} onClick={handlePlacePiece}>
                     {piece_items[7]}
                 </div>
-                <div id="piece_9" className={piece_name[8]}>
+                <div id="piece_3_3" className={piece_name[8]} onClick={handlePlacePiece}>
                     {piece_items[8]}
                 </div>
             </div>
+            <button type="button" className="apply_player_buttons" id="apply_submit_0" onClick={handleBecomePlayer}>Become Player X</button>
+            <button type="button" className="apply_player_buttons" id="apply_submit_1" onClick={handleBecomePlayer}>Become Player O</button>
         </div>
     );
 }

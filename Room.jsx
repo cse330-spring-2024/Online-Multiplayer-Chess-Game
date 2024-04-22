@@ -1,6 +1,6 @@
 import "./Room.css"
 
-function Room({current_room_name, players,game_status}) {
+function Room({current_room_name, players,game_status,turn}) {
     let display_str=""
     if(current_room_name===""){
         display_str="Please Join a Room!";
@@ -24,7 +24,12 @@ function Room({current_room_name, players,game_status}) {
             display_str=display_str+" (Game Over)";
         }
         else{
-            display_str=display_str+" (Not Over)";
+            if(turn===0){
+                display_str=display_str+" (Turn X)";
+            }
+            else{
+                display_str=display_str+" (Turn O)";
+            }
         }
     }
     return (
