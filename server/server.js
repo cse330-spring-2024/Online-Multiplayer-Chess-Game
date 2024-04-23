@@ -15,9 +15,6 @@ server.listen(330, () => {
     console.log('Server is running on port 3000');
 });
 
-
-
-
 //user list
 const user_list = new Set();
 //Data types with example listed
@@ -28,7 +25,7 @@ const room_games = new Map();
 //room_games: players in rooms & the place where the game info is placed
 //room_games={"room_name":["user1", "user2","1","0"],'room_name":["user3", "user4","2","0"]} 
 //player_X username, player_O username, index in player_history, whether the game is over
-const player_history = [];//[[0,1,2],[2,1,3]];  x:0, o:1
+const player_history = [];//[[0,1,...,1],[2,1,...,3]];  x:0, o:1
 function calculate_win(game_board) {
     const combos = [
         [0, 1, 2],
@@ -216,6 +213,26 @@ io.on('connection', (socket) => {
             }
         }
     })
+
+    socket.on('start_new_game', function (data) {
+        console.log("User " + data['username'] + ' start new game in ' + data['roomname']);
+        room_array = Array.from(room_list.get(data['roomname']))
+        if (data['username'] == room_array[0]) {
+            console.log("User " + data['username'] + " is room owner of " + data['roomname']);
+            let index = parseInt(room_games.get(data['roomname'])[2]);
+            player_history[index] = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
+            room_games.get(data['roomname'])[3] = "0";
+            for (user of room_array){
+                io.sockets.to(user).emit("start_new_game", { success: true });
+            }
+            console.log("Room start new game: " + room_games.get(data['roomname']) + player_history[index]);
+        }
+        else {
+            console.log("User " + data['username'] + " is not room owner of " + data['roomname']);
+            io.sockets.to(data["username"]).emit("start_new_game", { success: false, message: "You are not room owner" });
+        }
+    })
+
     //Place a piece
     //data: roomname, username, player_position, x, y
     socket.on('place_piece', function (data) {
@@ -248,7 +265,7 @@ io.on('connection', (socket) => {
                             }
                         }
                         //Game Over:Win
-                        if (result === 0 || result === 1 ) {
+                        if (result === 0 || result === 1) {
                             //Let every one in the room know a player win and game over
                             //Game over: draw: over=1, winner=0 for player x, winner=1 for player o
                             for (let user of room_list.get(data['roomname'])) {

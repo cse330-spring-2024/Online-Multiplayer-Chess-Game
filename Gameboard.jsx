@@ -1,14 +1,14 @@
 import "./Gameboard.css"
 
-function Gameboard({game_board, handleBecomePlayer,handlePlacePiece}) {
+function Gameboard({ user, game_board, handleBecomePlayer, handlePlacePiece, handleStartNewGame }) {
     let empty = <></>;
     let x = <><p className="x_piece">X</p></>
     let o = <><p className="o_piece">O</p></>
     let piece_name = [];
     let piece_items = [];
-    
+
     for (let i = 0; i < 9; i++) {
-        if(game_board === undefined) {
+        if (game_board === undefined) {
             piece_name.push("empty");
             piece_items.push(empty);
         }
@@ -19,7 +19,7 @@ function Gameboard({game_board, handleBecomePlayer,handlePlacePiece}) {
         else if (game_board[i] === 1) {
             piece_name.push("o");
             piece_items.push(o);
-        } else{
+        } else {
             piece_name.push("empty");
             piece_items.push(empty);
         }
@@ -55,8 +55,11 @@ function Gameboard({game_board, handleBecomePlayer,handlePlacePiece}) {
                     {piece_items[8]}
                 </div>
             </div>
-            <button type="button" className="apply_player_buttons" id="apply_submit_0" onClick={handleBecomePlayer}>Become Player X</button>
-            <button type="button" className="apply_player_buttons" id="apply_submit_1" onClick={handleBecomePlayer}>Become Player O</button>
+            <div id="room_action">
+                <button type="button" className="apply_player_buttons" id="apply_submit_0" onClick={handleBecomePlayer}>Become Player X</button>
+                <button type="button" className="apply_player_buttons" id="apply_submit_1" onClick={handleBecomePlayer}>Become Player O</button>
+                <button type="button" className="apply_player_buttons" id="apply_submit_2" onClick={handleStartNewGame}>Start New Game</button>
+            </div>
         </div>
     );
 }

@@ -133,6 +133,15 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
         socketio.emit("create_room", { username: user, roomname: userInputRoom });
     }
 
+    const handleStartNewGame = (e) => {
+        e.preventDefault();
+        if (user === "" || current_room_name === "") {
+            window.alert("Please log in and join a room");
+        } else {
+            socketio.emit("start_new_game", { username: user, roomname: current_room_name });
+        }
+    }
+
     // socketio.on("get_room_list", function (data) {
     //     setRoom_list(data['room_list']);
     // })
@@ -142,13 +151,23 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
         if (data['success'] === true) {
             let temp_room_list = room_list;
             temp_room_list.push(data["roomname"]);
-            setRoom_list(prev=>temp_room_list);
+            setRoom_list(prev => temp_room_list);
             setUserInputRoom("");
         }
         else {
             alert("Failed to create room.");
         }
     })
+
+    //start new game
+    socketio.on("start_new_game", function(data){
+        if(data['success']){
+            setGame_board([-1, -1, -1, -1, -1, -1, -1, -1, -1]);
+        }
+        else{
+            window.alert(data['message']);
+        }
+    });
 
     return (
         <>
@@ -170,6 +189,7 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
                     userInput={userInput}
                     handleBecomePlayer={handleBecomePlayer}
                     handlePlacePiece={handlePlacePiece}
+                    handleStartNewGame={handleStartNewGame}
                 />
             </section>
         </>
