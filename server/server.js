@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
             user_list.add(data['username']);
         }
     })
-    
+
     //Get Room List
     socket.on("get_room_list", function (data) {
         io.sockets.to(data["username"]).emit("get_room_list", {
@@ -152,7 +152,8 @@ io.on('connection', (socket) => {
             });
         }
     })
-    //Leave room: (probabily not necessary)
+
+    //Leave room:
     //data: roomname, username
     socket.on('leave', function (data) {
         if (room_list.has(data['roomname'])) {

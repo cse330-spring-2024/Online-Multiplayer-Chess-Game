@@ -15,6 +15,7 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
     //Join Room
     const handleJoinRoom = (e) => {
         e.preventDefault();
+        socketio.emit("leave", {username: user, roomname: current_room_name});
         socketio.emit("join_room", { username: user, roomname: e.currentTarget.id });
     }
     socketio.on("join_room", function (data) {
