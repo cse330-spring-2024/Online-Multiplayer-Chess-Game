@@ -63,7 +63,8 @@ io.on('connection', (socket) => {
 
     //Get Room List
     socket.on("get_room_list", function (data) {
-        io.sockets.to(data["username"]).emit("get_room_list", {
+        console.log("User " + data['username'] + " request room list");
+        io.sockets.emit("get_room_list", {
             room_list: map_to_array(room_list)
         });
     })
@@ -113,6 +114,7 @@ io.on('connection', (socket) => {
                 game_board: player_history[parseInt(room_games.get(data['roomname'])[2])],
                 game_result: room_games.get(data['roomname'])[3],
                 roomname: data['roomname'],
+                username: data['username'],
                 success: true
             });
             console.log("current player x " + room_games.get(data['roomname'])[0]);
@@ -133,8 +135,7 @@ io.on('connection', (socket) => {
     //Send message
     //data: roomname, username, message_content
     socket.on('message', function (data) {
-        console.log(room_list);
-        console.log("Find room: " + data['roomname']);
+        console.log(data['message_content'] + " is sent in " + data['roomname'] + " by " + data['usename']);
         if (room_list.has(data['roomname'])) {
             //let users in the room know a user is here
             for (let user of room_list.get(data['roomname'])) {

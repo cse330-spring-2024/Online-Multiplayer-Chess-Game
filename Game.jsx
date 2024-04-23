@@ -4,7 +4,6 @@ import Play from "./Play.jsx"
 import { useState, useEffect } from "react"
 function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio, players, setPlayers, game_status, setGame_status, turn, setTurn }) {
     //Message
-    const [chat_message, setChat_message] = useState([]);
     const [userInput, setUserInput] = useState('');
     //User Input
     const [userInputRoom, setUserInputRoom] = useState('');
@@ -24,8 +23,11 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
             setPlayers([data['current_player_x'], data['current_player_o']]);
             setGame_board(data['game_board']);
             setGame_status(data['game_result']);
-            setChat_message([]);
             // alert("You entered room " + data['roomname']);
+
+            document.getElementById("chat_list").innerHTML = "";
+            document.getElementById("chat_input_content").setAttribute("room", data['roomname']);
+            document.getElementById("chat_input_content").setAttribute("user", data['username']);
         }
         else {
             alert("Failed to entered room ");
@@ -35,9 +37,8 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
     const handleContent = (e) => {
         setUserInput(e.currentTarget.value)
     }
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        if (user === "") {
+    const handleSendMessage = function() {
+        if (user === "" || user === undefined) {
             alert("Please Login to Send a Message!");
         }
         else {
@@ -45,12 +46,19 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
         }
         setUserInput("");
     }
+
     socketio.on("message", function (data) {
         if (data['success'] === true) {
-            let temp_chat_message = chat_message;
-            temp_chat_message.push([data["username"], data["message_content"]]);
-            setChat_message(temp_chat_message);
-            // alert("New Message");
+            let single_chat = document.createElement("li");
+            let single_user = document.createElement("p");
+            let chat_word = document.createElement("p");
+            single_user.classList.add('chat_list_username');
+            chat_word.classList.add('chat_list_word');
+            single_user.innerHTML = data['username'];
+            chat_word.innerHTML = data['message_content'];
+            single_chat.appendChild(single_user);
+            single_chat.appendChild(chat_word);
+            document.getElementById("chat_list").appendChild(single_chat);
         }
         else {
             alert("Failed to send message.");
@@ -143,10 +151,7 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
     //Create room
     socketio.on("create_room", function (data) {
         if (data['success'] === true) {
-            let temp_room_list = room_list;
-            temp_room_list.push(data["roomname"]);
-            setRoom_list(prev => temp_room_list);
-            setUserInputRoom("");
+            socketio.emit("get_room_list", { username: user });
         }
         else {
             alert("Failed to create room.");
@@ -173,7 +178,6 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
                     handleJoinRoom={handleJoinRoom}
                 />
                 <Play user={user} setUser={(data) => setUser(data)}
-                    chat_message={chat_message} setChat_message={(data) => setChat_message(data)}
                     current_room_name={current_room_name} setCurrent_room_name={(data) => setCurrent_room_name(data)}
                     game_board={game_board} setGame_board={(data) => setGame_board(data)}
                     game_status={game_status} setGame_status={(data) => setGame_status(data)}

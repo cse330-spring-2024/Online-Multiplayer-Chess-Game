@@ -1,7 +1,7 @@
 import "./Info.css"
 import { useEffect, useState } from "react";
 
-function Info({user, setUser, socketio}) {
+function Info({ user, setUser, socketio, current_room_name }) {
     const [status, setStatus] = useState("login");
 
     const register = function () {
@@ -55,8 +55,15 @@ function Info({user, setUser, socketio}) {
                     document.cookie = "token=" + data.token;
                     setStatus("welcome");
                     setUser(username);
-                    socketio.emit("login", {username: username});
+                    socketio.emit("login", { username: username });
                     socketio.emit("get_room_list", { username: username });
+                    document.getElementById("chat_input_content").addEventListener("keypress", function (e) {
+                        let current_room = document.getElementById("chat_input_content").getAttribute("room");
+                        let user = document.getElementById("chat_input_content").getAttribute("user");
+                        if (e.key == "Enter") {
+                            socketio.emit("message", { username: user, roomname: current_room, message_content: e.target.value });
+                        }
+                    })
                 } else {
                     window.alert(data.message);
                 }
@@ -70,7 +77,7 @@ function Info({user, setUser, socketio}) {
                 document.getElementById("login_shell").style.display = "none";
                 document.getElementById("register_shell").style.display = "initial";
                 document.getElementById("welcome_info_shell").style.display = "none";
-            } else if(status === "login") {
+            } else if (status === "login") {
                 document.getElementById("login_shell").style.display = "initial";
                 document.getElementById("register_shell").style.display = "none";
                 document.getElementById("welcome_info_shell").style.display = "none";

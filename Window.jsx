@@ -15,7 +15,7 @@ function Window() {
     const [turn, setTurn] = useState(0);
     return (
         <section id="main_page">
-            <Info user={user} setUser={(data) => setUser(data)} socketio={socketio} />
+            <Info user={user} setUser={(data) => setUser(data)} socketio={socketio} current_room_name={current_room_name}/>
             <Room current_room_name={current_room_name}
                 players={players}
                 game_status={game_status}
