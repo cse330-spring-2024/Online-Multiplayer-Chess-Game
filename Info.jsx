@@ -56,6 +56,7 @@ function Info({user, setUser, socketio}) {
                     setStatus("welcome");
                     setUser(username);
                     socketio.emit("login", {username: username});
+                    socketio.emit("get_room_list", { username: username });
                 } else {
                     window.alert(data.message);
                 }

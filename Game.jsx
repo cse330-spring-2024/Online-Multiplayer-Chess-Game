@@ -12,13 +12,6 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
     const [game_board, setGame_board] = useState([-1, -1, -1, -1, -1, -1, -1, -1, -1]);
     const [room_list, setRoom_list] = useState([]);
 
-    // //Initialization:Get Room List
-    // const handleInitialization = (e) => {
-    //     e.preventDefault();
-    //     socketio.emit("get_room_list", { username: user });
-
-    // }
-
     //Join Room
     const handleJoinRoom = (e) => {
         e.preventDefault();
@@ -142,9 +135,9 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
         }
     }
 
-    // socketio.on("get_room_list", function (data) {
-    //     setRoom_list(data['room_list']);
-    // })
+    socketio.on("get_room_list", function (data) {
+        setRoom_list(data['room_list']);
+    })
 
     //Create room
     socketio.on("create_room", function (data) {
