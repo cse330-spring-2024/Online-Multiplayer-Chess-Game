@@ -57,6 +57,7 @@ function Info({ user, setUser, socketio, current_room_name }) {
                     setUser(username);
                     socketio.emit("login", { username: username });
                     socketio.emit("get_room_list", { username: username });
+                    document.getElementById("chat_input_content").setAttribute("user", username);
                     document.getElementById("chat_input_content").addEventListener("keypress", function (e) {
                         let current_room = document.getElementById("chat_input_content").getAttribute("room");
                         let user = document.getElementById("chat_input_content").getAttribute("user");
