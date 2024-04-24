@@ -135,7 +135,7 @@ io.on('connection', (socket) => {
     //Send message
     //data: roomname, username, message_content
     socket.on('message', function (data) {
-        console.log(data['message_content'] + " is sent in " + data['roomname'] + " by " + data['usename']);
+        console.log(data['message_content'] + " is sent in " + data['roomname'] + " by " + data['username']);
         if (room_list.has(data['roomname'])) {
             //let users in the room know a user is here
             for (let user of room_list.get(data['roomname'])) {
