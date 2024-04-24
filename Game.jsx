@@ -49,6 +49,7 @@ function Game({ user, setUser, current_room_name, setCurrent_room_name, socketio
 
     socketio.on("message", function (data) {
         if (data['success'] === true) {
+            window.alert("1");
             let single_chat = document.createElement("li");
             let single_user = document.createElement("p");
             let chat_word = document.createElement("p");
